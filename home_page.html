@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Choose your recipe!</title>
+
+    <style type="text/css">
+        @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
+        /*GRID TEMPLATES*/
+        header, footer, main{display: flex;}
+        header, footer{position: fixed; width: 100%; height: 80px; background-color: lightgray; color: black;
+                        text-align: center; align-items: center; justify-content: center; font-size: 1.5rem;
+                        font-weight: bold; z-index: 1000;}
+
+        header{ top: 0; left: 0;}
+
+        footer{bottom: 0; left: 0;}
+
+        main{margin-top: 100px; argin-bottom: 80px; justify-content: center; flex-wrap: wrap; gap: 30px;
+            padding: 20px; max-width: 1000px;}
+
+
+        /* FLIP CARDS GRID:*/
+        .card {
+            width: 200px;
+            height: 250px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        .card-front {
+            background: white;
+            color: black;
+            border: 1px solid #e5e7eb;
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+
+        .card-back {
+            background: saddlebrown;
+            color: white;
+            padding: 10px;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+/*        11. Double-sided card. (n.d.). CodePen. https://codepen.io/nefejames/pen/RNbPZpp*/
+
+        /*BACKGROUND ANIMATION: */
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: "Fredoka One", cursive;
+        }
+
+        .wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url("https://static.vecteezy.com/system/resources/previews/026/595/817/non_2x/hand-drawn-seamless-pattern-of-vegetables-illustration-free-free-vector.jpg"),
+                #111111;
+            animation: scroll 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes scroll {
+            50% {
+                background-position: 0px -400%;
+            }
+        }
+
+/*        Pattern Infinite scrolling animation. (n.d.). CodePen. https://codepen.io/adamabundis/pen/PoYgvYQ*/
+        
+        
+
+        /* Welcome title*/
+        .welcome {
+            color: lightgray;
+            -webkit-text-stroke: 1px black;
+            text-shadow: 4px 4px 4px #5e5e5e;
+            font-size: 4rem;
+            position: absolute;
+            top: 3%;}
+
+            footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            }
+
+        footer a {
+            padding: 10px 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+           
+        
+    </style>
+
+</head>
+
+<body>
+
+    <div class="wrapper"></div>
+
+    <h1 class="welcome">Welcome!</h1>
+
+<div> 
+    <header>CHOOSE THE FOOD THAT YOU WANT TO MAKE !</header>
+    <!-- Main Content Area -->
+    <main>
+        <!-- Card 1 -->
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="https://feelgoodfoodie.net/wp-content/uploads/2022/05/Banana-Pancakes-08.jpg" alt="Food 1">
+                </div>
+                <div class="card-back">
+                    <h3>Banana Pancake</h3>
+                    <p>1. One ripe banana<br>2. Two eggs<br>3. ½ tsp baking powder<br>4. A pinch of cinnamon (optional)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="https://www.tastingtable.com/img/gallery/chopped-caprese-salad-recipe/intro-1671570408.webp" alt="Food 2">
+                </div>
+                <div class="card-back">
+                    <h3>Caprese Salad</h3>
+                    <p>1. Fresh tomatoes<br>2. Fresh mozzarella cheese<br>3. Fresh basil leaves<br>4. Olive oil and balsamic vinegar<br>5. Salt and pepper</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="https://www.breathlesswines.com/assets/images/recipes/picture/veggiewrap.jpg" alt="Food 3">
+                </div>
+                <div class="card-back">
+                    <h3>Grilled Veggie Wrap</h3>
+                    <p>1. Tortilla wrap<br>2. One bell pepper (sliced)<br>3. One zucchini (sliced)<br>4. Two tbsp olive oil<br>5. Salt and pepper<br>6. Hummus (optional)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="https://www.darngoodveggies.com/wp-content/uploads/2021/07/Strawberry-Smoothie-Bowl-3-683x1024.jpg" alt="Food 4">
+                </div>
+                <div class="card-back">
+                    <h3>Smoothie Bowl</h3>
+                    <p>1. Few strawberries<br>2. ½ cup frozen berries<br>3. ½ cup yogurt or milk<br>4. Toppings: granola, coconut flakes, seeds, etc.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="https://www.allrecipes.com/thmb/FJem9Shp3noz-OmMmaUuZzUWll8=/0x512/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/241038-Microwave-Chocolate-Mug-Cake-4x3-01-4a45acfde3dc40f3a778662ecc6f2108.jpg" alt="Food 5">
+                </div>
+                <div class="card-back">
+                    <h3>Microwave Mug Cake</h3>
+                    <p>1. Three tbsp flour<br>2. Two tbsp sugar<br>3. One tbsp cocoa powder<br>4. Three tbsp milk<br>5. One tbsp vegetable oil<br>6. 1/4 tsp baking powder</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <a href="home_page.html">Home</a>
+        <a href="location_page.html">Location</a>
+        <a href="dragndrop_page.html">Drag&Drop</a>
+        <a href="sse_page.html">Update</a>
+    </footer>
+</div>
+
+
+
+</body>
+</html>
