@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>See Updates!</title>
+
+    <style type="text/css">
+        @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
+        /*GRID TEMPLATES*/
+        header, footer, main{display: flex;}
+        header, footer{position: fixed; width: 100%; height: 80px; background-color: lightgray; color: black;
+                        text-align: center; align-items: center; justify-content: center; font-size: 1.5rem;
+                        font-weight: bold; z-index: 1000;}
+
+        header{ top: 0; left: 0;}
+
+        footer{bottom: 0; left: 0;}
+
+        main{margin-top: 100px; argin-bottom: 80px; justify-content: center; flex-wrap: wrap; gap: 30px;
+            padding: 20px; max-width: 1000px;}
+
+
+        /*BACKGROUND ANIMATION :*/
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: "Fredoka One", cursive;
+        }
+
+        .wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url("https://static.vecteezy.com/system/resources/previews/026/595/817/non_2x/hand-drawn-seamless-pattern-of-vegetables-illustration-free-free-vector.jpg"),
+                #111111;
+            animation: scroll 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes scroll {
+            50% {
+                background-position: 0px -400%;
+            }
+        }
+
+/*        Pattern Infinite scrolling animation. (n.d.). CodePen. https://codepen.io/adamabundis/pen/PoYgvYQ*/
+
+        footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            }
+
+        footer a {
+            padding: 10px 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        .message-box {
+            width: 300px;
+            height: 100px;
+            background-color: white;
+            border: 2px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            margin: 20px;
+        }
+
+        .refresh-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: lightgray;
+            border: none;
+            border-radius: 5px;
+        }
+
+    </style>
+
+    <script>
+        // SSE:
+        function loadMessage() {
+    const eventSource = new EventSource("https://lms.pb.edu.bn/wy2301/sse.php");
+
+    eventSource.onmessage = function(event) {
+        console.log("Received message:", event.data); // Debugging: Log all messages
+
+        if (event.data.trim().endsWith("GROUP08")) { 
+            document.getElementById("message").innerText = event.data;
+        }
+    };
+
+    eventSource.onerror = function() {
+        console.log("Error with SSE connection");
+        eventSource.close();
+    };
+}
+
+    // W3Schools.com. (n.d.). https://www.w3schools.com/html/html5_serversentevents.asp
+    </script>
+
+</head>
+
+<body>
+
+    <div class="wrapper"></div>
+
+<div> 
+     <div class="wrapper"></div>
+    <header>UPDATES FOR GROUP#08 !</header>
+    <main>
+        <div class="message-box" id="message">Click the button to load message...</div>
+        <button class="refresh-button" onclick="loadMessage()">Refresh Message</button>
+    </main>
+
+    <footer>
+        <a href="home_page.html">Home</a>
+        <a href="location_page.html">Location</a>
+        <a href="dragndrop_page.html">Drag&Drop</a>
+        <a href="sse_page.html">Update</a>
+    </footer>
+</div>
+
+
+
+</body>
+</html>

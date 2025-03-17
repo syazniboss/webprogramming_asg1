@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>M</title>
+
+    <style type="text/css">
+        @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
+        /*GRID TEMPLATES*/
+        header, footer, main{display: flex;}
+        header, footer{position: fixed; width: 100%; height: 80px; background-color: lightgray; color: black;
+                        text-align: center; align-items: center; justify-content: center; font-size: 1.5rem;
+                        font-weight: bold; z-index: 1000;}
+
+        header{ top: 0; left: 0;}
+
+        footer{bottom: 0; left: 0;}
+
+        main{margin-top: 100px; argin-bottom: 80px; justify-content: center; flex-wrap: wrap; gap: 30px;
+            padding: 20px; max-width: 1000px;}
+
+
+        /*BACKGROUND ANIMATION :*/
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: "Fredoka One", cursive;
+        }
+
+        .wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url("https://static.vecteezy.com/system/resources/previews/026/595/817/non_2x/hand-drawn-seamless-pattern-of-vegetables-illustration-free-free-vector.jpg"),
+                #111111;
+            animation: scroll 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes scroll {
+            50% {
+                background-position: 0px -400%;
+            }
+        }
+
+/*        Pattern Infinite scrolling animation. (n.d.). CodePen. https://codepen.io/adamabundis/pen/PoYgvYQ*/
+
+        footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            }
+
+        footer a {
+            padding: 10px 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        .drop-box-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .drag-box-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            width: 100%;
+            position: fixed;
+            bottom: 100px;
+        }
+
+        .drag-box {
+            width: 150px;
+            padding: 15px;
+            border: 2px solid #333;
+            text-align: center;
+            font-size: 1.1rem;
+            cursor: move;
+            margin: 5px;
+            background-color: #f9f9f9;
+            color: #333;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease;
+        }
+
+        .drag-box:hover {
+            background-color: #f0f0f0;
+        }
+
+        .drop-box {
+            width: 600px; 
+            height: 400px;
+            border: 2px solid #333;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.4rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+            position: relative;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .drop-box.healthy {
+            border-color: green;
+            background-color: #e8f5e9;
+        }
+
+        .drop-box.unhealthy {
+            border-color: red;
+            background-color: #ffebee;
+        }
+
+        .drop-box span {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+            position: fixed;
+            left: 20px;
+            top: 110px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1rem;
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+
+    </style>
+
+    <script>
+        // DRAG AND DROP:
+
+        // Allowing drop
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        // Starting the drag action
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        // Handling the drop action
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            var draggedElement = document.getElementById(data);
+            var target = ev.target;
+
+            // Ensure that the drop is made only inside the drop box
+            if (target.classList.contains("drop-box")) {
+                // Prevent placing the item in the drop box header
+                if (!target.contains(draggedElement)) {
+                    target.appendChild(draggedElement);
+                    draggedElement.style.margin = "10px"; // Add spacing between elements
+                }
+            }
+        }
+
+        //to clear the contents of the drop boxes
+        function clearDropBoxes() {
+            let healthyBox = document.querySelector(".drop-box.healthy");
+            let unhealthyBox = document.querySelector(".drop-box.unhealthy");
+
+            // Move items back to the drag box
+            let draggedItems = document.querySelectorAll(".drag-box");
+
+            draggedItems.forEach(item => {
+                // Reset the items
+                let dragContainer = document.getElementById("dragContainer");
+                dragContainer.appendChild(item);
+            });
+
+            // Clear the contents of both drop boxes
+            healthyBox.innerHTML = '<span>Healthy Foods</span>';
+            unhealthyBox.innerHTML = '<span>Unhealthy Foods</span>';
+
+            // W3Schools online HTML editor. (n.d.). https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_draganddrop
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div class="wrapper"></div>
+
+    <header>CATEGORIZE THE MEAL !</header>
+
+    <main>
+        <!-- Drop Zones -->
+        <div class="drop-box-container">
+            <div class="drop-box healthy" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <span>Healthy Foods</span>
+            </div>
+
+            <div class="drop-box unhealthy" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <span>Unhealthy Foods</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Draggable Items -->
+    <div id="dragContainer" class="drag-box-container">
+        <div class="drag-box" id="tomato" draggable="true" ondragstart="drag(event)">
+            Tomatoes
+        </div>
+        <div class="drag-box" id="fish" draggable="true" ondragstart="drag(event)">
+            Fish
+        </div>
+        
+        <div class="drag-box" id="broccoli" draggable="true" ondragstart="drag(event)">
+            Broccoli
+        </div>
+        <div class="drag-box" id="yogurt" draggable="true" ondragstart="drag(event)">
+            Yogurt
+        </div>
+        <div class="drag-box" id="eggs" draggable="true" ondragstart="drag(event)">
+            Eggs
+        </div>
+        <div class="drag-box" id="milk" draggable="true" ondragstart="drag(event)">
+            Milk
+        </div>
+        
+        <div class="drag-box" id="potatochips" draggable="true" ondragstart="drag(event)">
+            Potato Chips
+        </div>
+        <div class="drag-box" id="icecream" draggable="true" ondragstart="drag(event)">
+            Ice Cream
+        </div>
+        <div class="drag-box" id="pizza" draggable="true" ondragstart="drag(event)">
+            Pizza
+        </div>
+        <div class="drag-box" id="processedmeat" draggable="true" ondragstart="drag(event)">
+            Processed Meat
+        </div>
+        
+        <div class="drag-box" id="pastries" draggable="true" ondragstart="drag(event)">
+            Pastries
+        </div>
+    </div>
+
+    <!-- Clear Button -->
+    <div class="button-container">
+        <button onclick="clearDropBoxes()">Clear All</button>
+    </div>
+    <footer>
+        <a href="home_page.html">Home</a>
+        <a href="location_page.html">Location</a>
+        <a href="dragndrop_page.html">Drag&Drop</a>
+        <a href="sse_page.html">Update</a>
+    </footer>
+
+</body>
+</html>

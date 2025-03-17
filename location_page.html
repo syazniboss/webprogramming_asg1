@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Locations!</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style type="text/css">
+        @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
+        /*GRID TEMPLATES*/
+        header, footer, main{display: flex;}
+        header, footer{position: fixed; width: 100%; height: 80px; background-color: lightgray; color: black;
+                        text-align: center; align-items: center; justify-content: center; font-size: 1.5rem;
+                        font-weight: bold; z-index: 1000;}
+
+        header{ top: 0; left: 0;}
+
+        footer{bottom: 0; left: 0;}
+
+        main{margin-top: 100px; argin-bottom: 80px; justify-content: center; flex-wrap: wrap; gap: 30px;
+            padding: 20px; max-width: 1000px;}
+
+
+        /*BACKGROUND ANIMATION :*/
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: "Fredoka One", cursive;
+        }
+
+        .wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url("https://static.vecteezy.com/system/resources/previews/026/595/817/non_2x/hand-drawn-seamless-pattern-of-vegetables-illustration-free-free-vector.jpg"),
+                #111111;
+            animation: scroll 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes scroll {
+            50% {
+                background-position: 0px -400%;
+            }
+        }
+
+/*        Pattern Infinite scrolling animation. (n.d.). CodePen. https://codepen.io/adamabundis/pen/PoYgvYQ*/
+
+        footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            }
+
+        footer a {
+            padding: 10px 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        #map {
+            height: 400px;
+            width: 90%;
+            margin-top: 20px;
+            border: 2px solid #ccc;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="text/javascript">
+    let map;
+    
+    // Function to initialize the map
+    function initMap() {
+        // Check if the browser supports geolocation
+        if (!navigator.geolocation) {
+            alert("Geolocation is not supported by your browser");
+            return;
+        }
+
+        // Get the user's current location
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                const userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+
+                // Create the map centered at the user's location
+                map = L.map('map').setView([userLocation.lat, userLocation.lng], 14);
+                
+                // Add OpenStreetMap tiles
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+
+                // Add a marker at the user's location with a popup
+                L.marker([userLocation.lat, userLocation.lng])
+                    .addTo(map)
+                    .bindPopup('You are here!')
+                    .openPopup();
+            },
+            function () {
+                alert("Unable to retrieve your location");
+            }
+        );
+    }
+
+    //to display a location when a clicking a button
+    function showLocation(lat, lng, name) {
+        if (map) {
+            // Move the map view to the selected location
+            map.setView([lat, lng], 15);
+            
+            // Add a pop up marker at the selected location
+            L.marker([lat, lng]).addTo(map).bindPopup(name).openPopup();
+        }
+    }
+
+    initMap();
+
+    // W3Schools online HTML editor. (n.d.-b). https://www.w3schools.com/js/tryit.asp?filename=tryjs_api_geolocation
+    </script>
+
+</head>
+<body>
+    <div class="wrapper"></div>
+    <header>PLACES TO BUY YOUR INGREDIENTS !</header>
+    <main>
+        <div id="map"></div>
+        <div class="btn-container">
+            <button onclick="showLocation(4.900832437078207, 114.9025904632359, 'Supa Save - Mata-mata')">Supa Save - Mata-mata</button>
+            <button onclick="showLocation(4.963064555870974, 114.95176161188594, 'Soon Lee Mega Mart Lambak')">Soon Lee Mega mart Lambak</button>
+            <button onclick="showLocation(4.906255533025381, 114.92863345543607, 'Supa Save - One Riverside')">Supa Save - One Riverside</button>
+            <button onclick="showLocation(4.944142662314625, 114.94745435606752, 'Hua Ho Department Store Delima')">Hua Ho - Delima</button>
+            <button onclick="showLocation(4.908064201034672, 114.9156607579218, 'Hua Ho Department Store Gadong')">Hua Ho - Gadong</button>
+        </div>
+    </main>
+    <footer>
+        <a href="home_page.html">Home</a>
+        <a href="location_page.html">Location</a>
+        <a href="dragndrop_page.html">Drag&Drop</a>
+        <a href="sse_page.html">Update</a>
+    </footer>
+    
+</body>
+</html>
